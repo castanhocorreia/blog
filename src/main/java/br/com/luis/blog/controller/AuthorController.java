@@ -2,6 +2,7 @@ package br.com.luis.blog.controller;
 
 
 import br.com.luis.blog.domain.author.AuthorDTO;
+import br.com.luis.blog.domain.author.AuthorResponseDTO;
 import br.com.luis.blog.models.Author;
 import br.com.luis.blog.service.AuthorService;
 import jakarta.transaction.Transactional;
@@ -21,7 +22,7 @@ public class AuthorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Author> save(@RequestBody AuthorDTO authorDTO) {
+    public ResponseEntity<AuthorResponseDTO> save(@RequestBody AuthorDTO authorDTO) {
         return new ResponseEntity<>(service.save(authorDTO), HttpStatus.CREATED);
     }
 

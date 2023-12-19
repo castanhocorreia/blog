@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "posts")
 @Getter
@@ -21,6 +23,10 @@ public class Post {
     private String title;
 
     private String content;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
     public Post(PostDTO postDTO) {
         this.title = postDTO.title();

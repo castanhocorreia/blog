@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "tags")
 @Getter
@@ -20,6 +23,10 @@ public class Tag {
     private Long id;
 
     private String name;
+
+   private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
     public Tag(TagDTO tagDTO) {
         this.name = tagDTO.name();

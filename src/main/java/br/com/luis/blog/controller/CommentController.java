@@ -1,6 +1,7 @@
 package br.com.luis.blog.controller;
 
 import br.com.luis.blog.domain.comment.CommentDTO;
+import br.com.luis.blog.domain.comment.CommentResponseDTO;
 import br.com.luis.blog.models.Comment;
 import br.com.luis.blog.service.CommentService;
 import jakarta.transaction.Transactional;
@@ -21,7 +22,7 @@ public class CommentController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Comment> save(@RequestBody CommentDTO commentDTO) {
+    public ResponseEntity<CommentResponseDTO> save(@RequestBody CommentDTO commentDTO) {
         return new ResponseEntity<>(service.save(commentDTO), HttpStatus.CREATED);
     }
 

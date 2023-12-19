@@ -2,11 +2,13 @@ package br.com.luis.blog.service;
 
 
 import br.com.luis.blog.domain.comment.CommentDTO;
+import br.com.luis.blog.domain.comment.CommentResponseDTO;
 import br.com.luis.blog.models.Comment;
 import br.com.luis.blog.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -36,9 +38,13 @@ public class CommentService {
         throw new NoSuchElementException("Nenhum comentário encontrado");
     }
 
-    public Comment save(CommentDTO commentDTO) {
+    public CommentResponseDTO save(CommentDTO commentDTO) {
         Comment newComment = new Comment(commentDTO);
-        return repository.save(newComment);
+        newComment.setCreatedAt(LocalDateTime.now());
+        Comment saveComment = repository.save(newComment);
+
+        return new CommentResponseDTO(saveComment.getId(), saveComment.getContent(),
+                saveComment.getCreatedAt(), saveComment.getUpdatedAt());
     }
 
     public Comment update(CommentDTO commentDTO, Long id) {
@@ -47,8 +53,12 @@ public class CommentService {
         if (commentOptional.isPresent()) {
             Comment comment = commentOptional.get();
             comment.setContent(commentDTO.content());
+            comment.setUpdatedAt(LocalDateTime.now());
+
             Comment updatedComment = repository.save(comment);
-            return new Comment(updatedComment.getId(), updatedComment.getContent());
+
+            return new Comment(updatedComment.getId(), updatedComment.getContent(),
+                    updatedComment.getCreatedAt(), updatedComment.getUpdatedAt());
         }
         throw new IllegalArgumentException("Id não encontrado");
     }

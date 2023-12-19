@@ -2,11 +2,13 @@ package br.com.luis.blog.service;
 
 
 import br.com.luis.blog.domain.post.PostDTO;
+import br.com.luis.blog.domain.post.PostResponseDTO;
 import br.com.luis.blog.models.Post;
 import br.com.luis.blog.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -19,9 +21,13 @@ public class PostService {
     private PostRepository repository;
 
 
-    public Post save(PostDTO postDTO) {
+    public PostResponseDTO save(PostDTO postDTO) {
         Post newPost = new Post(postDTO);
-        return repository.save(newPost);
+        newPost.setCreatedAt(LocalDateTime.now());
+        Post savePost = repository.save(newPost);
+
+        return new PostResponseDTO(savePost.getId(), savePost.getTitle(), savePost.getContent(),
+                savePost.getCreatedAt(), savePost.getUpdatedAt());
     }
 
     public List<Post> findAll() {
@@ -59,8 +65,11 @@ public class PostService {
             Post post = postOptional.get();
             post.setTitle(postDTO.title());
             post.setContent(postDTO.content());
+            post.setUpdatedAt(LocalDateTime.now());
+
             Post updatedPost = repository.save(post);
-            return new Post(updatedPost.getId(), updatedPost.getTitle(), updatedPost.getContent());
+            return new Post(updatedPost.getId(), updatedPost.getTitle(), updatedPost.getContent(),
+                    updatedPost.getCreatedAt(), updatedPost.getUpdatedAt());
         }
         throw new IllegalArgumentException("Id não encontrado");
     }

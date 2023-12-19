@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "authors")
 @Getter
@@ -20,6 +22,10 @@ public class Author {
     private Long id;
 
     private String name;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
     public Author(AuthorDTO authorDTO) {
         this.name = authorDTO.name();

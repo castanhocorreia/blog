@@ -2,11 +2,13 @@ package br.com.luis.blog.service;
 
 
 import br.com.luis.blog.domain.tag.TagDTO;
+import br.com.luis.blog.domain.tag.TagResponseDTO;
 import br.com.luis.blog.models.Tag;
 import br.com.luis.blog.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -19,9 +21,13 @@ public class TagService {
     private TagRepository repository;
 
 
-    public Tag save(TagDTO tagDTO) {
+    public TagResponseDTO save(TagDTO tagDTO) {
         Tag newTag = new Tag(tagDTO);
-        return repository.save(newTag);
+        newTag.setCreatedAt(LocalDateTime.now());
+        Tag saveTag = repository.save(newTag);
+
+
+        return new TagResponseDTO(saveTag.getId(), saveTag.getName(), saveTag.getCreatedAt(), saveTag.getUpdatedAt());
     }
 
     public List<Tag> findAll() {
@@ -48,8 +54,11 @@ public class TagService {
         if (tagOptional.isPresent()) {
             Tag tag = tagOptional.get();
             tag.setName(tagDTO.name());
+            tag.setUpdatedAt(LocalDateTime.now());
+
             Tag updatedTag = repository.save(tag);
-            return new Tag(updatedTag.getId(), updatedTag.getName());
+
+            return new Tag(updatedTag.getId(), updatedTag.getName(), updatedTag.getCreatedAt(), updatedTag.getUpdatedAt());
         }
         throw new IllegalArgumentException("Id não encontrado");
     }

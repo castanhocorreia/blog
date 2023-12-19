@@ -2,6 +2,7 @@ package br.com.luis.blog.controller;
 
 
 import br.com.luis.blog.domain.tag.TagDTO;
+import br.com.luis.blog.domain.tag.TagResponseDTO;
 import br.com.luis.blog.models.Tag;
 import br.com.luis.blog.service.TagService;
 import jakarta.transaction.Transactional;
@@ -21,7 +22,7 @@ public class TagController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Tag> save(@RequestBody TagDTO tagDTO) {
+    public ResponseEntity<TagResponseDTO> save(@RequestBody TagDTO tagDTO) {
         return new ResponseEntity<>(service.save(tagDTO), HttpStatus.CREATED);
     }
 

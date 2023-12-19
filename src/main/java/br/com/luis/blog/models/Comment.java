@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "comments")
 @Getter
@@ -19,6 +21,10 @@ public class Comment {
     private Long id;
 
     private String content;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
     public Comment(CommentDTO commentDTO) {
         this.content = commentDTO.content();
