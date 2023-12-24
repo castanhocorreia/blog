@@ -1,6 +1,8 @@
 package br.com.luis.blog.models;
 
 import br.com.luis.blog.domain.comment.CommentDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +27,14 @@ public class Comment {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
+
+    @OneToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private Author author;
 
     public Comment(CommentDTO commentDTO) {
         this.content = commentDTO.content();

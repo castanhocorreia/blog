@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tags")
@@ -27,6 +28,9 @@ public class Tag {
    private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    private Post posts;
 
     public Tag(TagDTO tagDTO) {
         this.name = tagDTO.name();

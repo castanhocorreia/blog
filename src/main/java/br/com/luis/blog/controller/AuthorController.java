@@ -43,9 +43,9 @@ public class AuthorController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/{id}")
+   /* @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<Author> updateById(@RequestBody AuthorDTO authorDTO, @PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(service.update(authorDTO, id),HttpStatus.OK);
-    }
+    }*/
 }

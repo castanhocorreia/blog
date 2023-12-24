@@ -36,11 +36,11 @@ public class CommentController {
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+   /* @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<Comment> findById(@RequestBody CommentDTO commentDTO, @PathVariable("id") Long id) {
         return new ResponseEntity<>(service.update(commentDTO, id), HttpStatus.OK);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteById(@PathVariable("id") Long id) {

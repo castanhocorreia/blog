@@ -22,13 +22,7 @@ public class AuthorService {
 
 
     public List<Author> findAll() {
-        List<Author> authors = repository.findAll();
-
-        if (authors.isEmpty()) {
-            throw new NoSuchElementException("Nenhum autor encontrado.");
-        }
-
-        return authors;
+        return repository.findAll();
     }
 
     public Author findById(Long id) {
@@ -51,15 +45,18 @@ public class AuthorService {
     public Author update(AuthorDTO authorDTO, Long id) {
         Optional<Author> authorOptional = repository.findById(id);
 
-        if (authorOptional.isPresent()) {
-            Author author = authorOptional.get();
-            author.setName(authorDTO.name());
-            author.setUpdatedAt(LocalDateTime.now());
-            Author updatedAuthor = repository.save(author);
-            return new Author(updatedAuthor.getId(), updatedAuthor.getName(),
-                    updatedAuthor.getCreatedAt(), updatedAuthor.getUpdatedAt());
+        if (authorOptional.isEmpty()) {
+            throw new IllegalArgumentException("Id não encontrado");
         }
-        throw new IllegalArgumentException("Id não encontrado");
+        Author author = authorOptional.get();
+        author.setName(authorDTO.name());
+        author.setUpdatedAt(LocalDateTime.now());
+
+        Author updatedAuthor = repository.save(author);
+
+
+        return new Author(updatedAuthor.getId(), updatedAuthor.getName(),
+                updatedAuthor.getCreatedAt(), updatedAuthor.getUpdatedAt(), updatedAuthor.getPosts());
     }
 
     public void delete(Long id) {

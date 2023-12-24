@@ -31,12 +31,7 @@ public class TagService {
     }
 
     public List<Tag> findAll() {
-        List<Tag> tags = repository.findAll();
-
-        if (tags.isEmpty()) {
-            throw new NoSuchElementException("Nenhuma Tag encontrada");
-        }
-        return tags;
+        return repository.findAll();
     }
 
     public Tag findById(Long id) {
@@ -48,20 +43,21 @@ public class TagService {
         throw new NoSuchElementException("Nenhuma Tag encontrada");
     }
 
-    public Tag update(TagDTO tagDTO, Long id) {
+  /*  public Tag update(TagDTO tagDTO, Long id) {
         Optional<Tag> tagOptional = repository.findById(id);
 
-        if (tagOptional.isPresent()) {
-            Tag tag = tagOptional.get();
-            tag.setName(tagDTO.name());
-            tag.setUpdatedAt(LocalDateTime.now());
-
-            Tag updatedTag = repository.save(tag);
-
-            return new Tag(updatedTag.getId(), updatedTag.getName(), updatedTag.getCreatedAt(), updatedTag.getUpdatedAt());
+        if (tagOptional.isEmpty()) {
+            throw new IllegalArgumentException("Id não encontrado");
         }
-        throw new IllegalArgumentException("Id não encontrado");
-    }
+
+        Tag tag = tagOptional.get();
+        tag.setName(tagDTO.name());
+        tag.setUpdatedAt(LocalDateTime.now());
+
+        Tag updatedTag = repository.save(tag);
+
+        return new Tag(updatedTag.getId(), updatedTag.getName(), updatedTag.getCreatedAt(), updatedTag.getUpdatedAt());
+    }*/
 
     public void delete(Long id) {
         Optional<Tag> tag = repository.findById(id);

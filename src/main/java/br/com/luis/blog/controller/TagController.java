@@ -36,11 +36,11 @@ public class TagController {
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
 
-    @PutMapping("{id}")
+    /*@PutMapping("{id}")
     @Transactional
     public ResponseEntity<Tag> update(@RequestBody TagDTO tagDTO, @PathVariable("id") Long id) {
         return new ResponseEntity<>(service.update(tagDTO, id), HttpStatus.OK);
-    }
+    }*/
 
     @DeleteMapping("{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
