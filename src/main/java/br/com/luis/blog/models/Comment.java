@@ -3,6 +3,7 @@ package br.com.luis.blog.models;
 import br.com.luis.blog.domain.comment.CommentDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,12 +29,12 @@ public class Comment {
 
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
 
-    @OneToOne
-    @JoinColumn(name = "author_id", nullable = false)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
     private Author author;
 
     public Comment(CommentDTO commentDTO) {

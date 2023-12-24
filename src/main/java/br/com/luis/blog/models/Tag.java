@@ -1,16 +1,17 @@
 package br.com.luis.blog.models;
 
-
 import br.com.luis.blog.domain.tag.TagDTO;
+
 import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tags")
@@ -25,12 +26,12 @@ public class Tag {
 
     private String name;
 
-   private LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    private Post posts;
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+    private Set<Post> posts = new HashSet<>();
 
     public Tag(TagDTO tagDTO) {
         this.name = tagDTO.name();

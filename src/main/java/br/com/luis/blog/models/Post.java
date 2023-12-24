@@ -12,7 +12,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "posts")
@@ -33,19 +36,33 @@ public class Post {
 
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
     private Author author;
 
-    @OneToMany(mappedBy = "post")
-    private List<Comment> comments;
+    @JsonManagedReference
+    @OneToMany(
+            mappedBy = "post",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany
-    private List<Tag> tags;
+    @ManyToMany(
+            cascade = {
+                CascadeType.DETACH,
+                CascadeType.MERGE,
+                CascadeType.PERSIST,
+                CascadeType.REFRESH
+            })
+    @JoinTable(
+            name = "post_tags",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
 
     public Post(PostDTO postDTO) {
         this.title = postDTO.title();
         this.content = postDTO.content();
     }
-
 }
